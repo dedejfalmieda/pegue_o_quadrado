@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pegue o Quadrado</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#0066ff,#00ccff);
+    text-align:center;
+    color:white;
+}
+
+h1{
+    margin-top:20px;
+}
+
+#info{
+    font-size:22px;
+    margin:15px;
+}
+
+#game{
+    width:700px;
+    max-width:95%;
+    height:450px;
+    background:white;
+    margin:auto;
+    position:relative;
+    border-radius:15px;
+    overflow:hidden;
+    border:5px solid black;
+}
+
+#quadrado{
+    width:60px;
+    height:60px;
+    background:red;
+    position:absolute;
+    cursor:pointer;
+    border-radius:10px;
+    transition:.15s;
+}
+
+button{
+    margin-top:20px;
+    padding:10px 25px;
+    font-size:20px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+</style>
+
+</head>
+<body>
+
+<h1>🎮 Pegue o Quadrado</h1>
+
+<div id="info">
+Pontos: <span id="pontos">0</span> |
+Tempo: <span id="tempo">30</span>
+</div>
+
+<div id="game">
+    <div id="quadrado"></div>
+</div>
+
+<button onclick="reiniciar()">Jogar Novamente</button>
+
+<script>
+
+let pontos = 0;
+let tempo = 30;
+
+const quadrado = document.getElementById("quadrado");
+const pontosTxt = document.getElementById("pontos");
+const tempoTxt = document.getElementById("tempo");
+const game = document.getElementById("game");
+
+function mover(){
+    let x = Math.random() * (game.clientWidth - 60);
+    let y = Math.random() * (game.clientHeight - 60);
+
+    quadrado.style.left = x + "px";
+    quadrado.style.top = y + "px";
+}
+
+quadrado.onclick = function(){
+    pontos++;
+    pontosTxt.textContent = pontos;
+    mover();
+}
+
+mover();
+
+const moverIntervalo = setInterval(mover,800);
+
+const cronometro = setInterval(() => {
+
+    tempo--;
+    tempoTxt.textContent = tempo;
+
+    if(tempo <= 0){
+
+        clearInterval(cronometro);
+        clearInterval(moverIntervalo);
+
+        quadrado.style.display="none";
+
+        alert("Fim de jogo!\n\nSua pontuação foi: " + pontos);
+
+    }
+
+},1000);
+
+function reiniciar(){
+    location.reload();
+}
+
+</script>
+
+</body>
+</html>
